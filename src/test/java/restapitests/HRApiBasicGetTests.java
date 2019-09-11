@@ -5,7 +5,7 @@ import org.junit.Test;
 import static io.restassured.RestAssured.*;
 import static org.junit.Assert.*;
 
-public class HRApiTests {
+public class HRApiBasicGetTests {
     String hrRegionsUrl = "http://ec2-54-164-195-86.compute-1.amazonaws.com:1000/ords/hr/regions";
 
     @Test

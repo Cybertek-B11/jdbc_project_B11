@@ -8,7 +8,7 @@ import org.junit.Test;
 import static io.restassured.RestAssured.*;
 import static org.junit.Assert.*;
 
-public class SpartanTests {
+public class SpartanBasicGetTests {
     String spartanAllURL = "http://ec2-54-164-195-86.compute-1.amazonaws.com:8000/api/spartans/";
 
     @Test
