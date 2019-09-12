@@ -6,6 +6,9 @@ import io.restassured.response.Response;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.*;
 import static org.junit.Assert.*;
 
@@ -98,7 +101,7 @@ public class SpartanTestsWithParameters {
 
 
   /*
-     Given accept type is Json
+    Given accept type is Json
     And query parameter values are :
 	gender|Female
 	nameContains|e
@@ -140,9 +143,45 @@ public class SpartanTestsWithParameters {
 
       assertTrue(response3.body().asString().contains("Female"));
       assertTrue(response3.body().asString().contains("Janette"));
+  }
 
+  /*
+    Given accept type is Xml
+    And query parameter values are :
+	gender|Female
+	nameContains|e
+    When user sends GET request to /api/spartans/search
+    Then response status code should be 406
+    And "Could not find acceptable representation" should be in response payload
+   */
+  @Test
+  public void invalid_header_test_With_parameters() {
+      Response response1 = given().accept(ContentType.XML)
+              .queryParams("gender","Female", "nameContains","e")
+              .when().get("/spartans/search");
 
+      Response response2 = given().accept(ContentType.XML)
+              .queryParam("gender","Female")
+              .queryParam("nameContains","e")
+              .when().get("/spartans/search");
 
+      Map<String,Object> paramsMap = new HashMap<>();
+      paramsMap.put("gender", "Female");
+      paramsMap.put("nameContains", "e");
+
+      Response response3 = given().accept(ContentType.XML)
+              .queryParams(paramsMap)
+              .when().get("/spartans/search");
+
+      //Response validations. With JUnit Assertions
+
+      assertEquals(406, response1.statusCode());
+      assertEquals(406, response2.statusCode());
+      assertEquals(406, response3.statusCode());
+
+      assertTrue(response1.body().asString().contains("Could not find acceptable representation"));
+      assertTrue(response2.body().asString().contains("Could not find acceptable representation"));
+      assertTrue(response3.body().asString().contains("Could not find acceptable representation"));
   }
 
 
