@@ -18,17 +18,26 @@ public class POJO_deserialization {
     public void spartan_to_pojo_object_deserialization() {
         Response response = given().accept(ContentType.JSON)
                 .when().get("http://54.164.195.86:8000/api/spartans/15");
-        //deserialize json to pojo java object.
-        //JSON response body >>> Custom Java class object
+//        System.out.println(response.statusCode());
+//        System.out.println(response.headers());
+
+        response.prettyPrint();
+
+
+//
+//        //deserialize json to pojo java object.
+//        //JSON response body >>> Custom Java class object
+        // taking the body of the response and converting to object
         Spartan spartan = response.body().as(Spartan.class);
 
+//
         System.out.println(spartan.getName());
         System.out.println(spartan.getGender());
         System.out.println(spartan.getSpartanID());
         System.out.println(spartan.getPhone());
 
         System.out.println("spartan.toString() = " + spartan.toString());
-
+//
         assertEquals("Meta", spartan.getName());
         assertEquals("Female", spartan.getGender());
         assertEquals(new Integer(15), spartan.getSpartanID());
